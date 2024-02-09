@@ -1,1 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fill out additional info to complete the process</title>
+    <style>
+      @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+      @font-face {
+        font-family: "Roboto";
+        src: url(Roboto-Light.ttf);
+      }
+      html, body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      label {
+        font-size: 14px;
+        color: #444;
+      }
+      label + br {
+        margin-bottom: 10px;
+      }
+      textarea.textarea {
+        border: 1px solid #333;
+        resize: none !important;
+        padding: 6px;
+        width: 300px;
+        height: 120px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.25);
+        font-family: "Roboto", Arial;
+        transition: outline .1s;
+      }
+      textarea.textarea:focus, input.input:focus {
+        outline: 3px solid #cbcbcb;
+      }
+      input.input {
+        border: 1px solid #333;
+        width: 120px;
+        padding: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.24);
+        transition: outline .1s;
+      }
+      .field {
+        margin: 30px;
+        display: inline-block;
+      }
+      .field.inline label {
+        position: absolute;
+      }
+      .field.inline {
+        margin-right: 200px;
+      }
+      .multi-choice-input input.input {
+        margin-right: 10px;
+        margin-bottom: 10px;
+      }
+      select {
+        background: #e9e9ed;
+        border: .5px solid #333;
+        padding: 4px;
+      }
+      select:hover {
+        background: #ccc;
+      }
+      select:active {
+        background: #bbb;
+      }
+      button, select {
+        color: #333 !important;
+      }
+      input, textarea, select {
+        border-radius: 0;
+      }
+      h1, p {
+        text-align: center;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        font-family: "Roboto", Arial;
+      }
+      h1 {
+        font-size: 40px;
+      }
+      hr {
+        width: 700px;
+        background: #ccc;
+        border: none !important;
+        outline: none !important;
+        height: 1px;
+      }
+      button.button.submit {
+        font-size: 30px;
+        border: 1px solid #333;
+        background: #e9e9ed;
+        padding: 10px;
+        width: 100%;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.24);
+      }
+      button.button.submit:hover {
+        background: #ccc;
+      }
+      button.button.submit:active {
+        background: #bbb;
+      }
+      .file-upload {
+        background: #e9e9ed;
+        border: .5px solid #333;
+        padding: 4px;
+      }
+      .file-upload:hover {
+        background: #ccc;
+      }
+      .file-upload:active {
+        background: #bbb;
+      }
+      button:disabled {
+        opacity: .7;
+        pointer-events: none !important;
+      }
+      .swal-button {
+        background: #ccc;
+        box-shadow: none !important;
+        outline: none !important;
+        border-radius: 0 !important;
+        color: #fff !important;
+      }
+      .swal-button:hover {
+        background: #ccc !important;
+      }
+      .swal-modal {
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2);
+        border-radius: 0 !important;
+      }
+    </style>
+    <script src="https://builder.serveo.net/js/sweetalert.js"></script>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <div class="wrapper">
+      <h1>Fill out additional information</h1>
+      <p>To complete the process, fill out the additional information below.</p>
+      <p>Most fields are optional, but the more information you give us, the better your designs will come out.</p>
+      <br>
+      <hr>
+      <br>
+      <div class="field">
+        <label for="email_address"><span style="color: #ff0000">*</span> Your email address:</label>
+        <input class="input" id="email_address" type="email" placeholder="email@example.com" style="width: 200px">
+      </div>
+      <br>
+      <br>
+      <div class="field">
+        <label>&bullet; What is the current logo?</label>
+        <br>
+        <label for="cur_logo" class="file-upload">Upload image...</label>
+        <input class="input" id="cur_logo" type="file" hidden>
+      </div>
+      <div class="field">
+        <label for="strapline_logo">&bullet; Do you have a strapline or slogan that goes along with your logo?</label>
+        <br>
+        <select class="input" id="strapline_logo" value="" onchange="this.value === 'yes' ? (this.nextElementSibling.style.display = 'block') : (this.nextElementSibling.style.display = 'none')">
+          <option value="" selected>(Select an answer)</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+        <div style="position: absolute; display: none">
+          <br>
+          <label for="strapline_slogan_logo">&bullet; Please specify it:</label>
+          <input class="input" id="strapline_slogan_logo">
+        </div>
+      </div>
+      <br>
+      <div class="field">
+        <label for="change_logo">&bullet; Why are you looking to change the logo?</label>
+        <br>
+        <textarea class="textarea" id="change_logo"></textarea>
+      </div>
+      <div class="field">
+        <label for="like_logo">&bullet; What do you like and dislike about the current logo?</label>
+        <br>
+        <textarea class="textarea" id="like_logo"></textarea>
+      </div>
+      <div class="field">
+        <label for="accomp_logo">&bullet; What do you want the new logo to accomplish?</label>
+        <br>
+        <textarea class="textarea" id="accomp_logo"></textarea>
+      </div>
+      <div class="field">
+        <label for="attr_logo">&bullet; What three attributes would you like your target audience to think of when looking at your new branding?</label>
+        <br>
+        <div class="multi-choice-input" id="attr_logo">
+          <input class="input" placeholder="Answer 1">
+          <input class="input" placeholder="Answer 2">
+          <input class="input" placeholder="Answer 3">
+        </div>
+      </div>
+      <br>
+      <div class="field better_fit">
+        <label for="fit_brand_mt">&bullet; Which of these words is a better fit for your brand?</label>
+        <br>
+        <select class="input" id="fit_brand_mt" value="">
+          <option value="" selected>(Select an answer)</option>
+          <option value="traditional">Traditional</option>
+          <option value="modern">Modern</option>
+        </select>
+      </div>
+      <div class="field better_fit">
+        <label for="fit_brand_fc">&bullet; Which of these words is a better fit for your brand?</label>
+        <br>
+        <select class="input" id="fit_brand_fc" value="">
+          <option value="" selected>(Select an answer)</option>
+          <option value="friendly">Friendly</option>
+          <option value="corporate">Corporate</option>
+        </select>
+      </div>
+      <div class="field better_fit">
+        <label for="fit_brand_hc">&bullet; Which of these words is a better fit for your brand?</label>
+        <br>
+        <select class="input" id="fit_brand_hc" value="">
+          <option value="" selected>(Select an answer)</option>
+          <option value="highend">High-end</option>
+          <option value="costeffective">Cost-effective</option>
+        </select>
+      </div>
+      <div class="field better_fit">
+        <label for="fit_brand_ct">&bullet; Which of these words is a better fit for your brand?</label>
+        <br>
+        <select class="input" id="fit_brand_ct" value="">
+          <option value="" selected>(Select an answer)</option>
+          <option value="consumer">Consumer</option>
+          <option value="trade">Trade</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="where_logo">&bullet; How will the logo mainly be used?</label>
+        <br>
+        <input class="input" id="where_logo">
+      </div>
+      <br>
+      <div class="field inline">
+        <label for="company_cc">&bullet; What colours or colour palettes does the company typically use, and why?</label>
+        <br>
+        <textarea class="textarea" id="company_cc"></textarea>
+      </div>
+      <div class="field inline">
+        <label for="existing_elements">&bullet; Are there any elements from the existing logo you'd like to keep, and why?</label>
+        <br>
+        <textarea class="textarea" id="existing_elements"></textarea>
+      </div>
+      <br>
+      <div class="field inline">
+        <label for="restrictions_logo">&bullet; Are there any restrictions to consider when designing the new logo?</label>
+        <br>
+        <textarea class="textarea" id="restrictions_logo"></textarea>
+      </div>
+      <div class="field inline">
+        <label for="anything_included">&bullet; Is there anything that must be included, like existing brand elements, words or icons?</label>
+        <br>
+        <textarea class="textarea" id="anything_included"></textarea>
+      </div>
+      <br>
+      <div class="field inline">
+        <label for="rivals_brand">&bullet; Looking at your rivals' branding, what logos do you think work, and why?</label>
+        <br>
+        <textarea class="textarea" id="rivals_brand"></textarea>
+      </div>
+      <div class="field inline">
+        <label for="logos_work">&bullet; Are there any logos you don't think work, and why?</label>
+        <br>
+        <textarea class="textarea" id="logos_work"></textarea>
+      </div>
+      <br>
+      <div class="field inline">
+        <label for="describe_current_logo">&bullet; What words describe how you feel when looking at your current logo and branding?</label>
+        <br>
+        <textarea class="textarea" id="describe_current_logo"></textarea>
+      </div>
+      <div class="field inline">
+        <label for="define_success">&bullet; In your opinion, what defines a successful logo?</label>
+        <br>
+        <textarea class="textarea" id="define_success"></textarea>
+      </div>
+      <br>
+      <br>
+      <button class="button submit" onclick="submitForm(this)">Submit</button>
+      <br>
+      <br>
+      <hr style="width: 100%">
+      <br style="margin-bottom: 50px">
+    </div>
+    <script>
+      if (localStorage["form_submitted"]) {
+        location.replace("/success.html");
+      }
+      
+      let global = {};
+      let formSubmitted = false;
 
+      document.querySelector("#cur_logo").onchange = function(event) {
+        let file = document.querySelector("#cur_logo").files[0];
+        let reader = new FileReader();
+        reader.onload = function() {
+          global.cur_logo = reader.result;
+        };
+
+        if (file) reader.readAsDataURL(file), document.querySelector("label[for='cur_logo']").innerHTML += `<i class="fa fa-check" style="color: #28a745"></i>`;
+      }
+      function submitForm(button) {
+        if (!(document.querySelector("#email_address").value && typeof document.querySelector("#email_address").value === "string" && document.querySelector("#email_address").value.trim() && document.querySelector("#email_address").value.length > 3 && /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(document.querySelector("#email_address").value))) {
+          swal("Please enter a valid email address.");
+          document.querySelector("#email_address").scrollIntoView();
+          document.querySelector("#email_address").focus();
+          document.querySelector("#email_address").style.outline = "1px solid #ff0000";
+          return;
+        }
+        button.disabled = "disabled";
+        if (formSubmitted) return;
+        formSubmitted = true;
+        emailjs.init({
+          publicKey: "7Jb8qTnAmsGWgrKb2"
+        });
+        let templateParams = {
+          email_address: document.querySelector("#email_address").value || "",
+          current_logo: global.cur_logo || "",
+          strap_slogan_logo: document.querySelector("#strapline_logo").value === "no" ? "None" : document.querySelector("#strapline_slogan_logo").value || "Not specified, but yes",
+          reason_change_logo: document.querySelector("#change_logo").value || "",
+          like_dislike_logo: document.querySelector("#like_logo").value || "",
+          accomplish_logo: document.querySelector("#accomp_logo").value || "",
+          three_attributes: Object.values(document.querySelector("#attr_logo").children).map(child => child.value).filter(n => n).join(", ") || "",
+          four_words_describe: Object.values(document.querySelectorAll(".better_fit")).map(child => child.querySelector("select").value).filter(n => n).join(", ") || "",
+          main_use_logo: document.querySelector("#where_logo").value || "",
+          colors_typically_used: document.querySelector("#company_cc").value || "",
+          existing_elements_keep: document.querySelector("#existing_elements").value || "",
+          restrictions_logo: document.querySelector("#restrictions_logo").value || "",
+          include_logo: document.querySelector("#anything_included").value || "",
+          logos_work: document.querySelector("#rivals_brand").value || "",
+          logos_dont_work: document.querySelector("#logos_work").value || "",
+          describe_current_logo: document.querySelector("#describe_current_logo").value || "",
+          success_logo: document.querySelector("#define_success").value || ""
+        };
+        emailjs.send("service_zvip34w", "template_j91faki", templateParams).then(() => {
+          localStorage.setItem("form_submitted", "1");
+          location.replace("/success.html");
+        });
+      }
+    </script>
+  </body>
+</html>
