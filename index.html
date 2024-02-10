@@ -289,7 +289,7 @@
     </div>
     <script>
       if (localStorage["form_submitted"]) {
-        location.replace("/success.html");
+        location.replace("success.html");
       }
       
       let global = {};
@@ -339,7 +339,7 @@
         };
         emailjs.send("service_zvip34w", "template_j91faki", templateParams).then(() => {
           localStorage.setItem("form_submitted", "1");
-          location.replace("/success.html");
+          location.replace("success.html");
         });
       }
     </script>
